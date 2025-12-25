@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Language } from './types.ts';
 import { LANGUAGES } from './constants.ts';
 import Sidebar from './components/Sidebar.tsx';
@@ -14,6 +14,14 @@ const App: React.FC = () => {
   const [currentView, setView] = useState<View>('dashboard');
   const [selectedLanguage, setSelectedLanguage] = useState<Language>('English');
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const [isReady, setIsReady] = useState(false);
+
+  // ضمان جاهزية الواجهة قبل عرض المحتوى المعقد
+  useEffect(() => {
+    setIsReady(true);
+  }, []);
+
+  if (!isReady) return null;
 
   const renderContent = () => {
     switch (currentView) {
@@ -79,7 +87,7 @@ const App: React.FC = () => {
       case 'tutor':
         return <TutorView language={selectedLanguage} />;
       default:
-        return <div>قيد التطوير...</div>;
+        return <div className="p-20 text-center text-slate-400">قيد التطوير...</div>;
     }
   };
 
@@ -94,7 +102,6 @@ const App: React.FC = () => {
       
       <main className="flex-1 lg:mr-64 w-full min-h-screen transition-all duration-300">
         <div className="max-w-6xl mx-auto p-4 lg:p-8">
-          {/* Header Bar */}
           <div className="flex justify-between items-center mb-6 lg:mb-10">
             <div className="flex items-center gap-3">
               <button 
@@ -139,7 +146,7 @@ const App: React.FC = () => {
           to { opacity: 1; transform: translateY(0); }
         }
         .animate-fadeIn {
-          animation: fadeIn 0.5s ease-out forwards;
+          animation: fadeIn 0.4s ease-out forwards;
         }
       `}</style>
     </div>
