@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { Language, Story } from '../types';
-import { generateStory } from '../services/gemini';
+import { Language, Story } from '../types.ts';
+import { generateStory } from '../services/gemini.ts';
 
 interface StoriesViewProps {
   language: Language;

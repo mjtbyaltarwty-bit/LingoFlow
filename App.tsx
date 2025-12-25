@@ -1,14 +1,14 @@
 
 import React, { useState } from 'react';
-import { View, Language } from './types';
-import { LANGUAGES } from './constants';
-import Sidebar from './components/Sidebar';
-import LanguageCard from './components/LanguageCard';
-import FlashcardView from './components/FlashcardView';
-import StoriesView from './components/StoriesView';
-import GrammarView from './components/GrammarView';
-import JourneyView from './components/JourneyView';
-import TutorView from './components/TutorView';
+import { View, Language } from './types.ts';
+import { LANGUAGES } from './constants.ts';
+import Sidebar from './components/Sidebar.tsx';
+import LanguageCard from './components/LanguageCard.tsx';
+import FlashcardView from './components/FlashcardView.tsx';
+import StoriesView from './components/StoriesView.tsx';
+import GrammarView from './components/GrammarView.tsx';
+import JourneyView from './components/JourneyView.tsx';
+import TutorView from './components/TutorView.tsx';
 
 const App: React.FC = () => {
   const [currentView, setView] = useState<View>('dashboard');

@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { Language, JourneyStep } from '../types';
-import { generateJourney } from '../services/gemini';
+import { Language, JourneyStep } from '../types.ts';
+import { generateJourney } from '../services/gemini.ts';
 
 interface JourneyViewProps {
   language: Language;

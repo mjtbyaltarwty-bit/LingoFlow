@@ -1,6 +1,6 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
-import { Flashcard, Story, GrammarRule, JourneyStep, Language } from "../types";
+import { Flashcard, Story, GrammarRule, JourneyStep, Language } from "../types.ts";
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 

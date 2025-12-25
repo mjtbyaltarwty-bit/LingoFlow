@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { Language, GrammarRule } from '../types';
-import { generateGrammar } from '../services/gemini';
+import { Language, GrammarRule } from '../types.ts';
+import { generateGrammar } from '../services/gemini.ts';
 
 interface GrammarViewProps {
   language: Language;

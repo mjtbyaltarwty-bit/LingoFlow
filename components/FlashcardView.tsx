@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { Language, Flashcard } from '../types';
-import { generateFlashcards } from '../services/gemini';
+import { Language, Flashcard } from '../types.ts';
+import { generateFlashcards } from '../services/gemini.ts';
 
 interface FlashcardViewProps {
   language: Language;
