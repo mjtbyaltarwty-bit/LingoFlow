@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
 import { Language } from '../types.ts';
 
 interface TutorViewProps {
@@ -9,7 +9,7 @@ interface TutorViewProps {
 
 const TutorView: React.FC<TutorViewProps> = ({ language }) => {
   const [messages, setMessages] = useState<{ role: 'user' | 'ai'; text: string }[]>([
-    { role: 'ai', text: `مرحباً بك! أنا معلمك الذكي للغة ${language}. كيف يمكنني مساعدتك اليوم؟ يمكنك سؤالي عن الترجمة، القواعد، أو حتى ممارسة المحادثة.` }
+    { role: 'ai', text: `مرحباً بك! أنا معلمك الذكي للغة ${language}. كيف يمكنني مساعدتك اليوم؟` }
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -23,7 +23,6 @@ const TutorView: React.FC<TutorViewProps> = ({ language }) => {
     setLoading(true);
 
     try {
-      // استخدام الطريقة الموصى بها للوصول لمفتاح API
       const apiKey = (window as any).process?.env?.API_KEY || "";
       const ai = new GoogleGenAI({ apiKey });
       
@@ -33,14 +32,14 @@ const TutorView: React.FC<TutorViewProps> = ({ language }) => {
           { role: 'user', parts: [{ text: `Act as a helpful and encouraging language tutor for ${language}. Current context: Helping an Arabic speaker. User said: ${userMsg}` }] }
         ],
         config: {
-          systemInstruction: `You are a professional language teacher specializing in teaching ${language} to Arabic speakers. Be encouraging, clear, and provide translations when necessary.`
+          systemInstruction: `You are a professional language teacher specializing in teaching ${language} to Arabic speakers. Be encouraging and clear.`
         }
       });
 
       setMessages(prev => [...prev, { role: 'ai', text: response.text || 'عذراً، لم أستطع فهم ذلك.' }]);
     } catch (error) {
       console.error(error);
-      setMessages(prev => [...prev, { role: 'ai', text: 'عذراً، واجهت مشكلة في الاتصال بالذكاء الاصطناعي.' }]);
+      setMessages(prev => [...prev, { role: 'ai', text: 'عذراً، واجهت مشكلة في الاتصال.' }]);
     } finally {
       setLoading(false);
     }
@@ -54,7 +53,7 @@ const TutorView: React.FC<TutorViewProps> = ({ language }) => {
           <h2 className="font-bold text-slate-800 text-lg">المعلم الذكي - {language}</h2>
           <div className="flex items-center gap-1.5">
             <span className="w-2 h-2 bg-emerald-500 rounded-full"></span>
-            <span className="text-xs text-slate-400 font-medium">متصل ومستعد للمساعدة</span>
+            <span className="text-xs text-slate-400 font-medium">متصل ومستعد</span>
           </div>
         </div>
       </div>
