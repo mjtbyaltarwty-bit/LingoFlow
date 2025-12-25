@@ -1,0 +1,7 @@
+{
+  "name": "Copy of LingoFlow - Smart Language Learning",
+  "description": "A modern, AI-powered language learning application supporting Arabic, English, German, and Japanese with flashcards, stories, grammar guides, and personalized learning journeys.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
