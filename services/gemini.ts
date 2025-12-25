@@ -2,10 +2,15 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { Flashcard, Story, GrammarRule, JourneyStep, Language } from "../types.ts";
 
-// دالة مساعدة للحصول على العميل بشكل آمن
+// دالة مساعدة للحصول على المفتاح بشكل آمن من عدة مصادر محتملة
+const getApiKey = (): string => {
+  if (typeof process !== 'undefined' && process.env?.API_KEY) return process.env.API_KEY;
+  if ((window as any).process?.env?.API_KEY) return (window as any).process.env.API_KEY;
+  return "";
+};
+
 const getAI = () => {
-  const apiKey = typeof process !== 'undefined' ? process.env.API_KEY : '';
-  return new GoogleGenAI({ apiKey: apiKey || "" });
+  return new GoogleGenAI({ apiKey: getApiKey() });
 };
 
 export const generateFlashcards = async (targetLang: Language, level: string): Promise<Flashcard[]> => {
@@ -21,10 +26,10 @@ export const generateFlashcards = async (targetLang: Language, level: string): P
           type: Type.OBJECT,
           properties: {
             id: { type: Type.STRING },
-            front: { type: Type.STRING, description: "The word in the target language" },
-            back: { type: Type.STRING, description: "The translation in Arabic" },
-            pronunciation: { type: Type.STRING, description: "Phonetic pronunciation" },
-            example: { type: Type.STRING, description: "A simple example sentence" }
+            front: { type: Type.STRING },
+            back: { type: Type.STRING },
+            pronunciation: { type: Type.STRING },
+            example: { type: Type.STRING }
           },
           required: ["id", "front", "back", "pronunciation", "example"]
         }
@@ -38,7 +43,7 @@ export const generateStory = async (targetLang: Language, topic: string): Promis
   const ai = getAI();
   const response = await ai.models.generateContent({
     model: "gemini-3-flash-preview",
-    contents: `Write a very short story (5-7 sentences) in ${targetLang} about ${topic}. Include Arabic translation and 3 key vocabulary words. Output as JSON.`,
+    contents: `Write a very short story in ${targetLang} about ${topic}. Include Arabic translation. Output as JSON.`,
     config: {
       responseMimeType: "application/json",
       responseSchema: {
@@ -69,7 +74,7 @@ export const generateGrammar = async (targetLang: Language, topic: string): Prom
   const ai = getAI();
   const response = await ai.models.generateContent({
     model: "gemini-3-flash-preview",
-    contents: `Explain a simple grammar rule in ${targetLang} related to ${topic}. Output as JSON. Explain in Arabic.`,
+    contents: `Explain ${topic} grammar in ${targetLang} for Arabic speaker. Output as JSON.`,
     config: {
       responseMimeType: "application/json",
       responseSchema: {
@@ -99,7 +104,7 @@ export const generateJourney = async (targetLang: Language, goal: string): Promi
   const ai = getAI();
   const response = await ai.models.generateContent({
     model: "gemini-3-flash-preview",
-    contents: `Create a 7-day language learning journey plan for ${targetLang} aiming for ${goal}. Output as JSON. Translate tasks to Arabic.`,
+    contents: `Create a 7-day learning plan for ${targetLang} to achieve: ${goal}. Output as JSON.`,
     config: {
       responseMimeType: "application/json",
       responseSchema: {

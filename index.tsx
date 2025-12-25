@@ -3,31 +3,23 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 
-const mountApp = () => {
-  try {
-    const container = document.getElementById('root');
-    if (!container) return;
+console.log("LingoFlow: Starting initialization...");
 
+const container = document.getElementById('root');
+
+if (container) {
+  try {
     const root = createRoot(container);
     root.render(
       <React.StrictMode>
         <App />
       </React.StrictMode>
     );
-    console.log("LingoFlow: App mounted successfully.");
+    console.log("LingoFlow: Render triggered.");
   } catch (error) {
-    console.error("LingoFlow: Mounting failed", error);
-    // إظهار الخطأ مباشرة إذا فشل الـ render
-    const container = document.getElementById('root');
-    if (container) {
-      container.innerHTML = `<div style="padding:20px; color:red;">Mounting Error: ${error}</div>`;
-    }
+    console.error("LingoFlow: Critical Render Error:", error);
+    container.innerHTML = `<div style="padding:20px; color:red; text-align:center;">Mounting Error: ${error}</div>`;
   }
-};
-
-// التأكد من أن المستند جاهز تماماً قبل البدء
-if (document.readyState === 'complete') {
-  mountApp();
 } else {
-  window.addEventListener('load', mountApp);
+  console.error("LingoFlow: Root container not found!");
 }

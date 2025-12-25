@@ -8,26 +8,34 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
-      // 1. تعريف البيئة فوراً قبل أي عملية أخرى
+      // 1. إعداد البيئة فوراً
       window.process = { env: { API_KEY: "" } };
       
-      // 2. نظام مراقبة الأخطاء وإظهارها للمستخدم
-      window.onerror = function(msg, url, line, col, error) {
-        console.error("Critical Error:", msg, url, line);
+      // 2. مراقب أخطاء شامل (بما في ذلك أخطاء تحميل الملفات)
+      window.addEventListener('error', function(event) {
+        if (event.target.tagName === 'SCRIPT') {
+          console.error('فشل تحميل ملف:', event.target.src);
+          showError('فشل تحميل ملف برمجيات حيوي: ' + event.target.src);
+        } else {
+          console.error('خطأ في التشغيل:', event.message);
+          showError(event.message);
+        }
+      }, true);
+
+      function showError(msg) {
         const root = document.getElementById('root');
         if (root) {
           root.innerHTML = `
-            <div style="padding:40px; text-align:center; color:#ef4444; font-family:sans-serif;">
-              <h3>عذراً، فشل تشغيل التطبيق</h3>
-              <p style="color:#64748b; font-size:14px;">قد يكون السبب متصفح قديم أو مشكلة في الاتصال بالخادم.</p>
-              <code style="background:#f1f5f9; padding:5px 10px; border-radius:5px; font-size:12px;">${msg}</code>
-              <br><br>
-              <button onclick="location.reload()" style="background:#6366f1; color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; font-weight:bold;">إعادة المحاولة</button>
+            <div style="padding:40px; text-align:center; font-family:'Tajawal',sans-serif;">
+              <div style="color:#ef4444; font-size:48px; margin-bottom:20px;">⚠️</div>
+              <h3 style="color:#1e293b; margin-bottom:10px;">عذراً، حدث خطأ في التشغيل</h3>
+              <p style="color:#64748b; font-size:14px; background:#f1f5f9; padding:15px; border-radius:12px; max-width:400px; margin:0 auto;">${msg}</p>
+              <button onclick="location.reload()" style="margin-top:20px; background:#6366f1; color:white; border:none; padding:12px 24px; border-radius:10px; cursor:pointer; font-weight:bold;">إعادة محاولة التحميل</button>
             </div>`;
         }
-      };
+      }
     </script>
     <script type="importmap">
 {
@@ -42,42 +50,20 @@
 }
 </script>
     <style>
-      body {
-        font-family: 'Tajawal', 'Inter', sans-serif;
-        background-color: #f8fafc;
-        margin: 0;
-      }
-      .loading-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background: #f8fafc;
-        color: #6366f1;
-      }
-      .spinner {
-        width: 48px;
-        height: 48px;
-        border: 5px solid #e0e7ff;
-        border-top-color: #6366f1;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        margin-bottom: 20px;
-      }
+      body { font-family: 'Tajawal', 'Inter', sans-serif; background-color: #f8fafc; margin: 0; }
+      .loading-screen { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; background: #f8fafc; color: #6366f1; }
+      .spinner { width: 40px; height: 40px; border: 4px solid #e0e7ff; border-top-color: #6366f1; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
       @keyframes spin { to { transform: rotate(360deg); } }
     </style>
   </head>
   <body>
     <div id="root">
-      <div class="loading-container">
+      <div class="loading-screen">
         <div class="spinner"></div>
-        <div style="font-weight: 800; font-size: 1.2rem; letter-spacing: -0.025em;">جاري تشغيل LingoFlow...</div>
-        <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 8px;">يتم الآن تحميل محتوى تعليم اللغات</p>
+        <div style="font-weight: 800; font-size: 1.2rem;">جاري تشغيل LingoFlow...</div>
+        <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 8px;">نحن نجهز بيئة التعلم الخاصة بك</p>
       </div>
     </div>
-    
-    <!-- تحميل التطبيق كـ Module مع إضافة crossorigin -->
-    <script type="module" src="./index.tsx" crossorigin></script>
+    <script type="module" src="index.tsx"></script>
   </body>
 </html>
