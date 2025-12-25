@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
-import { Language } from '../types';
+import { Language } from '../types.ts';
 
 interface TutorViewProps {
   language: Language;
@@ -23,7 +23,10 @@ const TutorView: React.FC<TutorViewProps> = ({ language }) => {
     setLoading(true);
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      // استخدام الطريقة الموصى بها للوصول لمفتاح API
+      const apiKey = (window as any).process?.env?.API_KEY || "";
+      const ai = new GoogleGenAI({ apiKey });
+      
       const response = await ai.models.generateContent({
         model: 'gemini-3-flash-preview',
         contents: [
@@ -34,17 +37,17 @@ const TutorView: React.FC<TutorViewProps> = ({ language }) => {
         }
       });
 
-      setMessages(prev => [...prev, { role: 'ai', text: response.text || 'عذراً، حدث خطأ ما.' }]);
+      setMessages(prev => [...prev, { role: 'ai', text: response.text || 'عذراً، لم أستطع فهم ذلك.' }]);
     } catch (error) {
       console.error(error);
-      setMessages(prev => [...prev, { role: 'ai', text: 'عذراً، واجهت مشكلة في الاتصال.' }]);
+      setMessages(prev => [...prev, { role: 'ai', text: 'عذراً، واجهت مشكلة في الاتصال بالذكاء الاصطناعي.' }]);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-4xl mx-auto h-[calc(100vh-160px)] flex flex-col">
+    <div className="max-w-4xl mx-auto h-[calc(100vh-160px)] flex flex-col animate-fadeIn">
       <div className="bg-white rounded-t-3xl p-6 border-b border-slate-100 shadow-sm flex items-center gap-4">
         <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white text-2xl">🤖</div>
         <div>
