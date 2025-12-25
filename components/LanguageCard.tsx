@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Language } from '../types';
+import { Language } from '../types.ts';
 
 interface LanguageCardProps {
   language: { id: Language; name: string; nativeName: string; icon: string };

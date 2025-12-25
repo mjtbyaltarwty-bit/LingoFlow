@@ -2,9 +2,14 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { Flashcard, Story, GrammarRule, JourneyStep, Language } from "../types.ts";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// دالة مساعدة للحصول على العميل بشكل آمن
+const getAI = () => {
+  const apiKey = typeof process !== 'undefined' ? process.env.API_KEY : '';
+  return new GoogleGenAI({ apiKey: apiKey || "" });
+};
 
 export const generateFlashcards = async (targetLang: Language, level: string): Promise<Flashcard[]> => {
+  const ai = getAI();
   const response = await ai.models.generateContent({
     model: "gemini-3-flash-preview",
     contents: `Generate 5 flashcards for learning ${targetLang} at ${level} level. Output as JSON.`,
@@ -30,6 +35,7 @@ export const generateFlashcards = async (targetLang: Language, level: string): P
 };
 
 export const generateStory = async (targetLang: Language, topic: string): Promise<Story> => {
+  const ai = getAI();
   const response = await ai.models.generateContent({
     model: "gemini-3-flash-preview",
     contents: `Write a very short story (5-7 sentences) in ${targetLang} about ${topic}. Include Arabic translation and 3 key vocabulary words. Output as JSON.`,
@@ -60,6 +66,7 @@ export const generateStory = async (targetLang: Language, topic: string): Promis
 };
 
 export const generateGrammar = async (targetLang: Language, topic: string): Promise<GrammarRule> => {
+  const ai = getAI();
   const response = await ai.models.generateContent({
     model: "gemini-3-flash-preview",
     contents: `Explain a simple grammar rule in ${targetLang} related to ${topic}. Output as JSON. Explain in Arabic.`,
@@ -89,6 +96,7 @@ export const generateGrammar = async (targetLang: Language, topic: string): Prom
 };
 
 export const generateJourney = async (targetLang: Language, goal: string): Promise<JourneyStep[]> => {
+  const ai = getAI();
   const response = await ai.models.generateContent({
     model: "gemini-3-flash-preview",
     contents: `Create a 7-day language learning journey plan for ${targetLang} aiming for ${goal}. Output as JSON. Translate tasks to Arabic.`,

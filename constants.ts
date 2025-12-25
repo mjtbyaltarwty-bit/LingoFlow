@@ -1,5 +1,5 @@
 
-import { Language } from './types';
+import { Language } from './types.ts';
 
 export const LANGUAGES: { id: Language; name: string; icon: string; nativeName: string }[] = [
   { id: 'Arabic', name: 'العربية', nativeName: 'العربية', icon: '🇸🇦' },
