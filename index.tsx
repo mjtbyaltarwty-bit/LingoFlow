@@ -3,21 +3,15 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 
-const init = () => {
-  const container = document.getElementById('root');
-  if (container) {
-    const root = createRoot(container);
-    root.render(
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    );
-  }
-};
+const container = document.getElementById('root');
 
-// التنفيذ المباشر إذا كان الـ DOM جاهزاً
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init);
+if (container) {
+  const root = createRoot(container);
+  root.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  );
 } else {
-  init();
+  console.error("LingoFlow: Root container not found!");
 }

@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Language } from './types.ts';
 import { LANGUAGES } from './constants.ts';
 import Sidebar from './components/Sidebar.tsx';
@@ -14,14 +14,6 @@ const App: React.FC = () => {
   const [currentView, setView] = useState<View>('dashboard');
   const [selectedLanguage, setSelectedLanguage] = useState<Language>('English');
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [isReady, setIsReady] = useState(false);
-
-  // ضمان جاهزية الواجهة قبل عرض المحتوى المعقد
-  useEffect(() => {
-    setIsReady(true);
-  }, []);
-
-  if (!isReady) return null;
 
   const renderContent = () => {
     switch (currentView) {
@@ -87,7 +79,7 @@ const App: React.FC = () => {
       case 'tutor':
         return <TutorView language={selectedLanguage} />;
       default:
-        return <div className="p-20 text-center text-slate-400">قيد التطوير...</div>;
+        return <div className="p-20 text-center text-slate-400">قيد الاختيار...</div>;
     }
   };
 

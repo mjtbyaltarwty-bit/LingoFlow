@@ -10,15 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
-      // إعداد بيئة التشغيل
+      // إعداد بيئة التشغيل الأساسية
       window.process = { env: { API_KEY: "" } };
-      
-      // نظام مراقبة الأخطاء
-      window.addEventListener('error', function(event) {
-        if (event.target.tagName === 'SCRIPT') {
-          console.error('فشل تحميل الملف:', event.target.src);
-        }
-      }, true);
     </script>
     <script type="importmap">
 {
@@ -33,23 +26,33 @@
 }
 </script>
     <style>
-      body { font-family: 'Tajawal', 'Inter', sans-serif; background-color: #f8fafc; margin: 0; overflow-x: hidden; }
-      .loading-screen { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; background: #f8fafc; color: #6366f1; }
-      .spinner { width: 40px; height: 40px; border: 4px solid #e0e7ff; border-top-color: #6366f1; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
+      body { 
+        font-family: 'Tajawal', 'Inter', sans-serif; 
+        background-color: #f8fafc; 
+        margin: 0; 
+        overflow-x: hidden;
+      }
+      #root:empty {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      #root:empty::after {
+        content: "";
+        width: 40px;
+        height: 40px;
+        border: 4px solid #e0e7ff;
+        border-top-color: #6366f1;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
       @keyframes spin { to { transform: rotate(360deg); } }
     </style>
   </head>
   <body>
-    <div id="root">
-      <div class="loading-screen">
-        <div class="spinner"></div>
-        <div style="font-weight: 800; font-size: 1.2rem;">جاري تشغيل LingoFlow...</div>
-        <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 8px;">يتم الآن تجهيز المحتوى التعليمي</p>
-      </div>
-    </div>
-    <!-- استخدام استدعاء الموديول المباشر لضمان التوافق -->
-    <script type="module">
-      import "./index.tsx";
-    </script>
+    <div id="root"></div>
+    <!-- ملاحظة: لا نضع أي script tag لـ index.tsx هنا لأن النظام يستورده تلقائياً -->
   </body>
 </html>
